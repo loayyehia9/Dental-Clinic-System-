@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'controllers/menu_controller.dart';
 import 'providers/dark_theme_provider.dart';
+import 'resources/route_manager.dart';
 import 'resources/string_manager.dart';
 import 'resources/theme_manager.dart';
-import 'screens/login_screen.dart';
+import 'screens/auth/screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    MyApp(),
+    const MyApp(),
   );
 }
 
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
 
   void getCurrentAppTheme() async {
     themeChangeProvider.setDarkTheme =
-        await themeChangeProvider.getThemeFromPrefs();
+        await themeChangeProvider.darkThemePreference.getTheme();
   }
 
   @override
@@ -53,7 +54,8 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             title: AppString.appTitle,
             theme: ThemeManager.themeData(themeProvider.getDarkTheme, context),
-            home: const LoginScreen(),
+            initialRoute: Routes.login,
+            onGenerateRoute: RouteGenerator.getRoute,
           );
         },
       ),

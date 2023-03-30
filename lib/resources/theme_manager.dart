@@ -1,9 +1,12 @@
+import '../resources/font_manager.dart';
 import 'package:flutter/material.dart';
 import 'color_manager.dart';
 import 'values_manager.dart';
 
 class ThemeManager {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
+    Color color =
+        isDarkTheme ? ColorManager.whiteColor : ColorManager.blackColor;
     return ThemeData(
       scaffoldBackgroundColor: isDarkTheme
           ? ColorManager.scaffoldDarkColor
@@ -17,8 +20,34 @@ class ThemeManager {
                 ? const ColorScheme.dark()
                 : const ColorScheme.light(),
           ),
+      textTheme: TextTheme(
+        headlineLarge: TextStyle(
+          fontSize: FontSize.s60,
+          fontWeight: FontWeightManager.bold,
+          color: color,
+        ),
+        labelMedium: TextStyle(
+          fontSize: FontSize.s30,
+          fontWeight: FontWeightManager.semiBold,
+          color: color,
+        ),
+        labelSmall: const TextStyle(
+          fontSize: FontSize.s22,
+          fontWeight: FontWeightManager.normal,
+          color: ColorManager.whiteColor,
+        ),
+      ),
+
       // input decoration theme (text form field)
       inputDecorationTheme: InputDecorationTheme(
+        prefixIconColor: color,
+        suffixIconColor: color,
+        labelStyle: TextStyle(
+          color: color,
+        ),
+        hintStyle: TextStyle(
+          color: color,
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSize.s12),
           borderSide: const BorderSide(
@@ -32,6 +61,9 @@ class ThemeManager {
             color: ColorManager.greyColor,
             width: AppSize.s1,
           ),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSize.s12),
         ),
       ),
     );

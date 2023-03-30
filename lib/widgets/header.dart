@@ -1,59 +1,73 @@
+import '../resources/string_manager.dart';
+import '../services/utils.dart';
+import '/resources/values_manager.dart';
 import 'package:flutter/material.dart';
-
 import '../resources/constants.dart';
+import '../resources/icon_manager.dart';
 import '../responsive.dart';
 
 class Header extends StatelessWidget {
+  final String screenName;
+  final Function fct;
   const Header({
     Key? key,
     required this.fct,
+    required this.screenName,
   }) : super(key: key);
 
-  final Function fct;
   @override
   Widget build(BuildContext context) {
+    Color color = Utils(context).color;
     return Row(
       children: [
         if (!Responsive.isDesktop(context))
           IconButton(
-            icon: const Icon(Icons.menu),
+            icon: Icon(
+              IconManager.menu,
+              color: color,
+            ),
             onPressed: () {
               fct();
             },
           ),
         if (Responsive.isDesktop(context))
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(AppPadding.p8),
             child: Text(
-              "Dashboard",
-              style: Theme.of(context).textTheme.headline6,
+              screenName,
+              style: Theme.of(context).textTheme.labelMedium,
             ),
           ),
         if (Responsive.isDesktop(context))
-          Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+          Spacer(
+            flex: Responsive.isDesktop(context)
+                ? AppMargin.m2.toInt()
+                : AppMargin.m1.toInt(),
+          ),
         Expanded(
           child: TextField(
+            style: TextStyle(color: color),
             decoration: InputDecoration(
-              hintText: "Search",
-              fillColor: Theme.of(context).cardColor,
-              filled: true,
-              border: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
+              hintText: AppString.search,
               suffixIcon: InkWell(
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
                 onTap: () {},
                 child: Container(
-                  padding: const EdgeInsets.all(Const.defaultPadding * 0.75),
+                  padding: const EdgeInsets.all(AppPadding.p12),
                   margin: const EdgeInsets.symmetric(
-                      horizontal: Const.defaultPadding / 2),
+                      horizontal: Const.defaultPadding / AppMargin.m2),
                   decoration: const BoxDecoration(
                     color: Colors.blue,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(
+                        AppSize.s10,
+                      ),
+                    ),
                   ),
                   child: const Icon(
-                    Icons.search,
-                    size: 25,
+                    IconManager.search,
                   ),
                 ),
               ),
